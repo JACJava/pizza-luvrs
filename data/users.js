@@ -2,24 +2,24 @@
 
 const bcrypt = require('bcrypt-nodejs'),
   Boom = require('boom'),
-  User = require('../models/user');
+  User = require('../models/user'),
+  DynamoStore = require('./dynamoStore');
 
-const users = {},
-  saltRounds = 10;
+const saltRounds = 10;
 
 function createUser (username, passwordString, callback) {
-  if (users[username]) {
-    throw Boom.conflict('Username already exists');
-  }
   hashPassword(passwordString, (err, passwordHash) => {
     let user = new User(username, passwordHash);
-    users[username] = user;
-    callback(null, user);
+    DynamoStore.putItem('users', user, (err, data) => {
+      callback(null, user);
+    });
   });
 };
 
 function getUser (username, callback) {
-  callback(null, users[username]);
+  DynamoStore.getItem('users', 'username', username, (err, data) => {
+    callback(null, dynamoItemToUser(data.Item));
+  });
 };
 
 function authenticateUser (username, passwordString, callback) {
@@ -44,6 +44,10 @@ function hashPassword (passwordString, callback) {
       callback(err, hash);
     });
   });
+}
+
+function dynamoItemToUser (item) {
+  return new User(item.username.S, item.passwordHash.S);
 }
 
 module.exports.createUser = createUser;
