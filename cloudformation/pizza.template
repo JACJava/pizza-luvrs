@@ -20,7 +20,7 @@
       "Type": "AWS::EC2::Subnet",
       "Properties": {
         "CidrBlock": "10.0.1.0/24",
-        "AvailabilityZone": "us-west-2b",
+        "AvailabilityZone": "us-east-2b",
         "VpcId": {
           "Ref": "vpc0d9ce469"
         },
@@ -36,7 +36,7 @@
       "Type": "AWS::EC2::Subnet",
       "Properties": {
         "CidrBlock": "10.0.0.0/24",
-        "AvailabilityZone": "us-west-2a",
+        "AvailabilityZone": "us-east-2a",
         "VpcId": {
           "Ref": "vpc0d9ce469"
         },
@@ -56,7 +56,7 @@
     "dopt949461f0": {
       "Type": "AWS::EC2::DHCPOptions",
       "Properties": {
-        "DomainName": "us-west-2.compute.internal",
+        "DomainName": "us-east-2.compute.internal",
         "DomainNameServers": [
           "AmazonProvidedDNS"
         ]
@@ -134,8 +134,8 @@
       "DependsOn": "gw1",
       "Properties": {
         "AvailabilityZones": [
-          "us-west-2a",
-          "us-west-2b"
+          "us-east-2a",
+          "us-east-2b"
         ],
         "Cooldown": "300",
         "DesiredCapacity": "2",
@@ -168,7 +168,7 @@
       "Type": "AWS::AutoScaling::LaunchConfiguration",
       "Properties": {
         "AssociatePublicIpAddress": true,
-        "ImageId": "ami-d0864bb0",
+        "ImageId": "ami-045eceeee6b6cffa0",
         "InstanceType": "t2.micro",
         "KeyName": "pizza-keys",
         "IamInstanceProfile": "pizza-ec2-role",
@@ -266,7 +266,7 @@
         }
       }
     },
-    "s3pizzaluvrsryanlewis": {
+    "s3pizzaluvrsjuliec2": {
       "Type": "AWS::S3::Bucket",
       "Properties": {
         "AccessControl": "Private",
@@ -335,7 +335,7 @@
       }
     },
     "dbsgdefault": {
-      "Type": "AWS::RDS::DBSecurityGroup",
+      "Type": "AWS::EC2::SecurityGroup",
       "Properties": {
         "GroupDescription": "default"
       }
@@ -382,11 +382,11 @@
         }
       }
     },
-    "s3policypizzaluvrsryanlewis": {
+    "s3policypizzaluvrsjuliec2": {
       "Type": "AWS::S3::BucketPolicy",
       "Properties": {
         "Bucket": {
-          "Ref": "s3pizzaluvrsryanlewis"
+          "Ref": "s3pizzaluvrsjuliec2"
         },
         "PolicyDocument": {
           "Version": "2012-10-17",
@@ -403,7 +403,7 @@
                   [
                     "arn:aws:s3:::",
                     {
-                      "Ref": "s3pizzaluvrsryanlewis"
+                      "Ref": "s3pizzaluvrsjuliec2"
                     },
                     "/*"
                   ]
@@ -494,7 +494,7 @@
         "Statistic": "Sum",
         "Threshold": "240.0",
         "AlarmActions": [
-          "arn:aws:sns:us-west-2:180732999116:dynamodb"
+          "arn:aws:sns:us-east-2:180732999116:dynamodb"
         ],
         "Dimensions": [
           {
@@ -516,7 +516,7 @@
         "Statistic": "Sum",
         "Threshold": "240.0",
         "AlarmActions": [
-          "arn:aws:sns:us-west-2:180732999116:dynamodb"
+          "arn:aws:sns:us-east-2:180732999116:dynamodb"
         ],
         "Dimensions": [
           {
@@ -538,7 +538,7 @@
         "Statistic": "Sum",
         "Threshold": "240.0",
         "AlarmActions": [
-          "arn:aws:sns:us-west-2:180732999116:dynamodb"
+          "arn:aws:sns:us-east-2:180732999116:dynamodb"
         ],
         "Dimensions": [
           {
@@ -560,7 +560,7 @@
         "Statistic": "Sum",
         "Threshold": "240.0",
         "AlarmActions": [
-          "arn:aws:sns:us-west-2:180732999116:dynamodb"
+          "arn:aws:sns:us-east-2:180732999116:dynamodb"
         ],
         "Dimensions": [
           {
